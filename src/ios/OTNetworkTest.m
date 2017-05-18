@@ -286,9 +286,13 @@ audioNetworkStatsUpdated:(OTSubscriberKitAudioNetworkStats*)stats
     NSLog(@"Bidchat Video Report BW=%ld Pass=%d Ratio=%f Pass=%d",video_bw, video_bw_count, video_pl_ratio, video_pl_ratio_count);
     NSLog(@"Bidchat Audio Report BW=%ld Pass=%d Ratio=%f Pass=%d",audio_bw, audio_bw_count, audio_pl_ratio, audio_pl_ratio_count);
     
-    BOOL canDoVideo = ((video_bw/video_bw_count) >= 150000 && (video_pl_ratio/video_pl_ratio_count) <= 0.03);
-    BOOL canDoAudio = ((audio_bw/audio_bw_count) >= 25000 && (audio_pl_ratio/audio_pl_ratio_count) <= 0.05);
+    // BOOL canDoVideo = ((video_bw/video_bw_count) >= 150000 && (video_pl_ratio/video_pl_ratio_count) <= 0.03);
+    // BOOL canDoAudio = ((audio_bw/audio_bw_count) >= 25000 && (audio_pl_ratio/audio_pl_ratio_count) <= 0.05);
     
+    // Ignore packet loss as it is handled on server
+    BOOL canDoVideo = ((video_bw/video_bw_count) >= 150000);
+    BOOL canDoAudio = ((audio_bw/audio_bw_count) >= 25000);
+
     if (!canDoVideo && !canDoAudio)
     {
         NSLog(@"Starting Audio Only Test");
