@@ -650,6 +650,8 @@ static NSString * SID_S;
     NSString* sessionId = [command.arguments objectAtIndex:1];
     NSString* token = [command.arguments objectAtIndex:2];
     NSString* timeout = [command.arguments objectAtIndex:3];
+    double videoBandwidth = [[command.arguments objectAtIndex:4] doubleValue];
+    double audioBandwidth = [[command.arguments objectAtIndex:5] doubleValue];
 
     if([timeout isEqual:[NSNull null]]) {
         timeout = @"30";
@@ -667,6 +669,8 @@ static NSString * SID_S;
                                           token:token
                              executeQualityTest:YES
                             qualityTestDuration:10
+                            videoBandwidth:videoBandwidth
+                            audioBandwidth:audioBandwidth
                                        delegate:self];
 }
 
