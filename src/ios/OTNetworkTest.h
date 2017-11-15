@@ -26,6 +26,8 @@ enum OTNetworkTestResult {
                                token:(NSString*)token
                   executeQualityTest:(BOOL)needsQualityTest
                  qualityTestDuration:(int)qualityTestDuration
+                       videoBandwidth:(double)videoBandwidth
+                       audioBandwidth:(double)audioBandwidth
                             delegate:(id<OTNetworkTestDelegate>)delegate;
 @end
 

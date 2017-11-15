@@ -47,6 +47,9 @@ OTSubscriberKitNetworkStatsDelegate >
     int audio_pl_ratio_count;
     
     OTDefaultAudioDevice* _myAudioDevice;
+
+    double m_videoBandwidth;
+    double m_audioBandwidth;
 }
 
 - (void)runConnectivityTestWithApiKey:(NSString*)apiKey
@@ -54,6 +57,8 @@ OTSubscriberKitNetworkStatsDelegate >
                                 token:(NSString*)token
                    executeQualityTest:(BOOL)needsQualityTest
                   qualityTestDuration:(int)qualityTestDuration
+                        videoBandwidth:(double)videoBandwidth
+                        audioBandwidth:(double)audioBandwidth
                              delegate:(id<OTNetworkTestDelegate>)delegate
 {
     prevVideoTimestamp = 0;
@@ -73,7 +78,10 @@ OTSubscriberKitNetworkStatsDelegate >
     audio_bw_count = 0;
     video_pl_ratio_count = 0;
     audio_pl_ratio_count = 0;
-    
+
+    m_videoBandwidth = videoBandwidth;
+    m_audioBandwidth = audioBandwidth;
+
     if(!_myAudioDevice)
     {
         _myAudioDevice = [[OTDefaultAudioDevice alloc] init];
@@ -290,8 +298,11 @@ audioNetworkStatsUpdated:(OTSubscriberKitAudioNetworkStats*)stats
     // BOOL canDoAudio = ((audio_bw/audio_bw_count) >= 25000 && (audio_pl_ratio/audio_pl_ratio_count) <= 0.05);
     
     // Ignore packet loss as it is handled on server
-    BOOL canDoVideo = ((video_bw/video_bw_count) >= 150000);
-    BOOL canDoAudio = ((audio_bw/audio_bw_count) >= 25000);
+    // BOOL canDoVideo = ((video_bw/video_bw_count) >= 150000);
+    // BOOL canDoAudio = ((audio_bw/audio_bw_count) >= 25000);
+
+    BOOL canDoVideo = ((video_bw/video_bw_count) >= m_videoBandwidth);
+    BOOL canDoAudio = ((audio_bw/audio_bw_count) >= m_audioBandwidth);
 
     if (!canDoVideo && !canDoAudio)
     {
